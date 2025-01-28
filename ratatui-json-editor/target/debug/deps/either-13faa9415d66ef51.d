@@ -1,0 +1,9 @@
+/home/sam/Documents/Rust/rust_tui_playground/ratatui-json-editor/target/debug/deps/libeither-13faa9415d66ef51.rmeta: /home/sam/.cargo/registry/src/index.crates.io-6f17d22bba15001f/either-1.13.0/src/lib.rs /home/sam/.cargo/registry/src/index.crates.io-6f17d22bba15001f/either-1.13.0/src/iterator.rs /home/sam/.cargo/registry/src/index.crates.io-6f17d22bba15001f/either-1.13.0/src/into_either.rs
+
+/home/sam/Documents/Rust/rust_tui_playground/ratatui-json-editor/target/debug/deps/libeither-13faa9415d66ef51.rlib: /home/sam/.cargo/registry/src/index.crates.io-6f17d22bba15001f/either-1.13.0/src/lib.rs /home/sam/.cargo/registry/src/index.crates.io-6f17d22bba15001f/either-1.13.0/src/iterator.rs /home/sam/.cargo/registry/src/index.crates.io-6f17d22bba15001f/either-1.13.0/src/into_either.rs
+
+/home/sam/Documents/Rust/rust_tui_playground/ratatui-json-editor/target/debug/deps/either-13faa9415d66ef51.d: /home/sam/.cargo/registry/src/index.crates.io-6f17d22bba15001f/either-1.13.0/src/lib.rs /home/sam/.cargo/registry/src/index.crates.io-6f17d22bba15001f/either-1.13.0/src/iterator.rs /home/sam/.cargo/registry/src/index.crates.io-6f17d22bba15001f/either-1.13.0/src/into_either.rs
+
+/home/sam/.cargo/registry/src/index.crates.io-6f17d22bba15001f/either-1.13.0/src/lib.rs:
+/home/sam/.cargo/registry/src/index.crates.io-6f17d22bba15001f/either-1.13.0/src/iterator.rs:
+/home/sam/.cargo/registry/src/index.crates.io-6f17d22bba15001f/either-1.13.0/src/into_either.rs:
