@@ -1,0 +1,1 @@
+/home/sam/Documents/Rust/rust_tui_playground/threads_tui/target/debug/threads_tui: /home/sam/Documents/Rust/rust_tui_playground/threads_tui/src/app.rs /home/sam/Documents/Rust/rust_tui_playground/threads_tui/src/main.rs /home/sam/Documents/Rust/rust_tui_playground/threads_tui/src/ui.rs
