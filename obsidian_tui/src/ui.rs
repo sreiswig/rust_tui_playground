@@ -6,7 +6,7 @@ use ratatui::{
     Frame,
 };
 
-use crate::app::{App, CurrentScreen, CurrentlyEditing};
+use crate::app::{App, CurrentScreen};
 
 pub fn ui(frame: &mut Frame, app: &App) {
     // Create the layout sections.
@@ -46,9 +46,6 @@ pub fn ui(frame: &mut Frame, app: &App) {
         // The first half of the text
         match app.current_screen {
             CurrentScreen::Main => Span::styled("Normal Mode", Style::default().fg(Color::Green)),
-            CurrentScreen::Editing => {
-                Span::styled("Editing Mode", Style::default().fg(Color::Yellow))
-            }
             CurrentScreen::Exiting => Span::styled("Exiting", Style::default().fg(Color::LightRed)),
         }
         .to_owned(),
@@ -56,18 +53,7 @@ pub fn ui(frame: &mut Frame, app: &App) {
         Span::styled(" | ", Style::default().fg(Color::White)),
         // The final section of the text, with hints on what the user is editing
         {
-            if let Some(editing) = &app.currently_editing {
-                match editing {
-                    CurrentlyEditing::Key => {
-                        Span::styled("Editing Json Key", Style::default().fg(Color::Green))
-                    }
-                    CurrentlyEditing::Value => {
-                        Span::styled("Editing Json Value", Style::default().fg(Color::LightGreen))
-                    }
-                }
-            } else {
-                Span::styled("Not Editing Anything", Style::default().fg(Color::DarkGray))
-            }
+            Span::styled("Not Editing Anything", Style::default().fg(Color::DarkGray))
         },
     ];
 
@@ -77,15 +63,11 @@ pub fn ui(frame: &mut Frame, app: &App) {
     let current_keys_hint = {
         match app.current_screen {
             CurrentScreen::Main => Span::styled(
-                "(q) to quit / (e) to make new pair",
-                Style::default().fg(Color::Red),
-            ),
-            CurrentScreen::Editing => Span::styled(
-                "(ESC) to cancel/(Tab) to switch boxes/enter to complete",
+                "(q) to quit",
                 Style::default().fg(Color::Red),
             ),
             CurrentScreen::Exiting => Span::styled(
-                "(q) to quit / (e) to make new pair",
+                "(q) to quit",
                 Style::default().fg(Color::Red),
             ),
         }
@@ -102,38 +84,6 @@ pub fn ui(frame: &mut Frame, app: &App) {
     frame.render_widget(mode_footer, footer_chunks[0]);
     frame.render_widget(key_notes_footer, footer_chunks[1]);
 
-    if let Some(editing) = &app.currently_editing {
-        let popup_block = Block::default()
-            .title("Enter a new key-value pair")
-            .borders(Borders::NONE)
-            .style(Style::default().bg(Color::DarkGray));
-
-        let area = centered_rect(60, 25, frame.area());
-        frame.render_widget(popup_block, area);
-
-        let popup_chunks = Layout::default()
-            .direction(Direction::Horizontal)
-            .margin(1)
-            .constraints([Constraint::Percentage(50), Constraint::Percentage(50)])
-            .split(area);
-
-        let mut key_block = Block::default().title("Key").borders(Borders::ALL);
-        let mut value_block = Block::default().title("Value").borders(Borders::ALL);
-
-        let active_style = Style::default().bg(Color::LightYellow).fg(Color::Black);
-
-        match editing {
-            CurrentlyEditing::Key => key_block = key_block.style(active_style),
-            CurrentlyEditing::Value => value_block = value_block.style(active_style),
-        };
-
-        let key_text = Paragraph::new(app.key_input.clone()).block(key_block);
-        frame.render_widget(key_text, popup_chunks[0]);
-
-        let value_text = Paragraph::new(app.value_input.clone()).block(value_block);
-        frame.render_widget(value_text, popup_chunks[1]);
-    }
-
     if let CurrentScreen::Exiting = app.current_screen {
         frame.render_widget(Clear, frame.area()); //this clears the entire screen and anything already drawn
         let popup_block = Block::default()
@@ -142,7 +92,7 @@ pub fn ui(frame: &mut Frame, app: &App) {
             .style(Style::default().bg(Color::DarkGray));
 
         let exit_text = Text::styled(
-            "Would you like to output the buffer as json? (y/n)",
+            "Save?",
             Style::default().fg(Color::Red),
         );
         // the `trim: false` will stop the text from being cut off when over the edge of the block
