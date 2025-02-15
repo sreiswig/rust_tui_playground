@@ -2,11 +2,11 @@ use std::fs;
 use std::path::PathBuf;
 
 #[derive(Debug)]
-struct FileTreeNode{
-    name: String,
-    path: PathBuf,
-    children: Vec<FileTreeNode>,
-    is_dir: bool,
+pub struct FileTreeNode{
+    pub name: String,
+    pub path: PathBuf,
+    pub children: Vec<FileTreeNode>,
+    pub is_dir: bool,
 }
 
 impl FileTreeNode {
@@ -19,7 +19,7 @@ impl FileTreeNode {
         }
     }
 
-    fn populate_children(&mut self) -> std::io::Result<()>{
+    pub fn populate_children(&mut self) -> std::io::Result<()>{
         if !self.is_dir {
             return Ok(())
         }
@@ -51,10 +51,10 @@ impl FileTreeNode {
                 a.name.cmp(&b.name)
             }
         });
-        Ok(());
+        Ok(())
     }
 
-    fn build_tree(path: &PathBuf) -> std::io::Result<FileTreeNode> {
+    pub fn build_tree(path: &PathBuf) -> std::io::Result<FileTreeNode> {
         let file_name = path.file_name().and_then(|s| s.to_str()).unwrap_or(".").to_string();
         let mut root_node = FileTreeNode::new(
             file_name,
@@ -65,5 +65,35 @@ impl FileTreeNode {
             root_node.populate_children()?;
         }
         Ok(root_node)
+    }
+
+    pub fn format_tree(&self, prefix: String, is_last: bool) -> Vec<String> {
+        let mut lines = Vec::new();
+
+        let current_prefix = if is_last {
+            prefix + "└── "
+        } else {
+            prefix + "├── "
+        };
+        let marker = if self.is_dir { "📁 " } else { "📄 " };
+        lines.push(current_prefix + marker + &self.name);
+
+        let mut children_prefix = prefix;
+        if is_last {
+            children_prefix += "    ";
+        } else {
+            children_prefix += "│   ";
+        }
+
+        let child_count = self.children.len();
+        for (i, child) in self.children.iter().enumerate() {
+            let is_last_child = i == child_count - 1;
+            lines.extend(child.format_tree(children_prefix.clone(), is_last_child));
+        }
+        lines
+    }
+
+    pub fn get_display_lines(&self) -> Vec<String> {
+        self.format_tree("".to_string(), true)
     }
 }

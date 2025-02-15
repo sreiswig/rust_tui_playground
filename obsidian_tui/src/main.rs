@@ -1,3 +1,6 @@
+mod file_tree;
+pub use file_tree::FileTreeNode;
+
 use std::{error::Error, io};
 
 use ratatui::{
